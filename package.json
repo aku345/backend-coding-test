@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "mocha tests",
-    "start": "node index.js"
+    "start": "node index.js",
+    "posttest": "eslint --ignore-path .gitignore ."
   },
   "keywords": [
     "Xendit"
@@ -21,6 +22,7 @@
     "sqlite3": "^4.0.6"
   },
   "devDependencies": {
+    "eslint": "^6.1.0",
     "mocha": "^6.1.4",
     "supertest": "^4.0.2"
   }

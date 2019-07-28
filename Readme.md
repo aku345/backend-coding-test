@@ -10,6 +10,17 @@ The goal of these exercises are to assess my proficiency in software engineering
 4. Run `npm test`
 5. Run `npm start`
 6. Hit the server to test health `curl localhost:8010/health` and expect a `200` response 
+7. add eslint 
+   1. install eslint `npm install eslint --save-dev`
+   2. configure eslint `./node_modules/.bin/eslint --init`
+   3. run eslint as posttest, you can also set it as pretest to run eslint before test.
+    ```
+    "scripts": {
+    ...
+    "posttest": "eslint --ignore-path .gitignore .",
+    ...
+    }
+    ```
 
 ## Tasks
 
