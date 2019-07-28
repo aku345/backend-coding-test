@@ -42,14 +42,14 @@ module.exports = (db) => {
         if (typeof driverName !== 'string' || driverName.length < 1) {
             return res.send({
                 error_code: 'VALIDATION_ERROR',
-                message: 'Rider name must be a non empty string'
+                message: 'Driver name must be a non empty string'
             });
         }
 
         if (typeof driverVehicle !== 'string' || driverVehicle.length < 1) {
             return res.send({
                 error_code: 'VALIDATION_ERROR',
-                message: 'Rider name must be a non empty string'
+                message: 'Vehicle name must be a non empty string'
             });
         }
 
@@ -77,7 +77,21 @@ module.exports = (db) => {
     });
 
     app.get('/rides', (req, res) => {
-        db.all('SELECT * FROM Rides', function (err, rows) {
+        var page = Number(req.query.page);
+        var perPage = Number(req.query.per_page);
+
+        if (page < 1 || isNaN(page)) {
+            page = 1;
+        }
+
+        if (perPage < 1 || isNaN(perPage)) {
+            perPage = 10;
+        }
+
+        var limit = perPage;
+        var offset = (page-1) * perPage;
+        
+        db.all(`SELECT * FROM Rides limit ? offset ?`, [limit, offset], function (err, rows) {
             if (err) {
                 return res.send({
                     error_code: 'SERVER_ERROR',
