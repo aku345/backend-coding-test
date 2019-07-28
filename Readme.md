@@ -16,10 +16,20 @@ The goal of these exercises are to assess my proficiency in software engineering
    3. run eslint as posttest, you can also set it as pretest to run eslint before test.
     ```
     "scripts": {
-    ...
-    "posttest": "eslint --ignore-path .gitignore .",
-    ...
+        ...
+        "posttest": "eslint --ignore-path .gitignore .",
+        ...
     }
+    ```
+8. add nyc
+    1. install nyc `npm install nyc --save-dev`
+    2. change `package.json` to run nyc on every test
+    ```
+    "scripts": {
+        ...
+        "test": "nyc --reporter html --reporter text mocha tests",
+        ...
+    },
     ```
 
 ## Tasks
