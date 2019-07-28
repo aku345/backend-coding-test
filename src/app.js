@@ -3,6 +3,14 @@
 const express = require('express');
 const app = express();
 
+const winston = require('winston');
+const logger = winston.createLogger({
+    transports: [
+      new winston.transports.Console(),
+      new winston.transports.File({ filename: 'combined.log' })
+    ]
+  });
+
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
@@ -57,6 +65,10 @@ module.exports = (db) => {
         
         db.run('INSERT INTO Rides(startLat, startLong, endLat, endLong, riderName, driverName, driverVehicle) VALUES (?, ?, ?, ?, ?, ?, ?)', values, function (err) {
             if (err) {
+                logger.log({
+                    level: 'error',
+                    message: 'Failed to insert data to Database'
+                });
                 return res.send({
                     error_code: 'SERVER_ERROR',
                     message: 'Unknown error'
@@ -65,6 +77,10 @@ module.exports = (db) => {
 
             db.all('SELECT * FROM Rides WHERE rideID = ?', this.lastID, function (err, rows) {
                 if (err) {
+                    logger.log({
+                        level: 'error',
+                        message: 'Failed to read data from Database'
+                    });
                     return res.send({
                         error_code: 'SERVER_ERROR',
                         message: 'Unknown error'
@@ -93,6 +109,10 @@ module.exports = (db) => {
         
         db.all(`SELECT * FROM Rides limit ? offset ?`, [limit, offset], function (err, rows) {
             if (err) {
+                logger.log({
+                    level: 'error',
+                    message: 'Failed to read data from Database'
+                });
                 return res.send({
                     error_code: 'SERVER_ERROR',
                     message: 'Unknown error'
