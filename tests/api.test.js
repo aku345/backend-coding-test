@@ -8,6 +8,11 @@ const db = new sqlite3.Database(':memory:');
 const app = require('../src/app')(db);
 const buildSchemas = require('../src/schemas');
 
+var mocha = require('mocha')
+var describe = mocha.describe
+var before = mocha.before
+var it = mocha.it
+
 describe('API tests', () => {
     before((done) => {
         db.serialize((err) => { 
